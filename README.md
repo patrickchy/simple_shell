@@ -1,1 +1,1 @@
-my readme
+My simple shell project

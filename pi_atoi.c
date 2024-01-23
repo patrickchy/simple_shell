@@ -1,74 +1,65 @@
 #include "shell.h"
-
 /**
- * pi_interactive - Returns true if shell is interactive mode
- * @infoz: struct address
- *
- * Return: 1 if interactive mode, 0 otherwise
- */
-int pi_interactive(info_t *infoz)
+ * _interactiveness - returns true if shell is interractive
+ * @infos: address for struct
+ * Return: always 1 for interactive and 0 for non interractive
+*/
+int _interactiveness(info_t *infos);
+int _interactiveness(info_t *infos)
 {
-	return (isatty(STDIN_FILENO) && infoz->readfd <= 2);
+	return (isatty(STDIN_FILENO) && infos->reader <= 2);
 }
-
 /**
- * pi_delim - Checks if character is a delimeter
- * @ch: The character to check
- * @delimeter: Pointer to the delimeter string
- * Return: 1 if true, 0 if false
+ * _isdelimeter - checks if a single character is a delimeter
+ * @character: the character to check
+ * @delimeter: the delimeter string to be used
+ * Return: 1 or 0 if true and false respectively
  */
-int pi_delim(char ch, char *delimeter)
+int _isdelimeter(char character, char *delimeter)
 {
 	while (*delimeter)
-		if (*delimeter++ == ch)
+		if (*delimeter++ == character)
 			return (1);
 	return (0);
 }
-
 /**
- *pi_alphabet - Checks for alphabetic character
- *@input: The character to input
- *Return: 1 if inpu is alphabetic, 0 otherwise
+ * _alphabet - checks for alphabetic character in an input
+ * @input: the input to check from
+ * Return: 1 for alphabetic, 0 otherwise
  */
-
-int pi_alphabet(int input)
+int _alphabet(int input)
 {
 	if ((input >= 'a' && input <= 'z') || (input >= 'A' && input <= 'Z'))
 		return (1);
 	else
 		return (0);
 }
-
 /**
- *pi_atoi - Converts a string to an integer
- *@st: Pointer to the string to be converted
- *Return: 0 if no numbers in string, converted number otherwise
+ * _atoi - converts string to integer
+ * @strings: the string to convert
+ * Return: an integer
  */
-
-int pi_atoi(char *st)
+int _atoi(char *strings)
 {
-	int i, sn = 1, fl = 0, opt = 0;
+	int i = 0, sgn = 1, fg = 0, out = 0;
 	unsigned int score = 0;
 
-	for (i = 0;  st[i] != '\0' && fl != 2; i++)
+	for (i = 0; strings[i] != '\0' && fg != 2; i++)
 	{
-		if (st[i] == '-')
-			sn *= -1;
-
-		if (st[i] >= '0' && st[i] <= '9')
+		if (strings[i] == '-')
+			sgn *= -1;
+		if (strings[i] >= '0' && strings[i] <= '9')
 		{
-			fl = 1;
+			fg = 1;
 			score *= 10;
-			score += (st[i] - '0');
+			score += (strings[i] - '0');
 		}
-		else if (fl == 1)
-			fl = 2;
+		else if (fg == 1)
+			fg = 2;
 	}
-
-	if (sn == -1)
-		opt = -score;
+	if (sgn == -1)
+		out = -score;
 	else
-		opt = score;
-
-	return (opt);
+		out = score;
+	return (out);
 }
